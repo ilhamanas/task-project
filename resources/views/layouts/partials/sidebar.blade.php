@@ -7,7 +7,7 @@
 @endphp
 
 <div class="d-flex flex-column h-100">
-    <div class="brand-logo justify-content-between">
+    <div class="brand-logo">
         <a href="{{ route('dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none text-dark min-w-0">
             <img
                 src="{{ asset('images/brand/icon.png') }}"

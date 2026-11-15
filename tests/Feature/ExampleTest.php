@@ -31,6 +31,7 @@ class ExampleTest extends TestCase
             ->assertSee('Dashboard')
             ->assertSee('images/brand/icon.png')
             ->assertSee('app-sidebar-drawer')
+            ->assertSee('<div class="brand-logo">', false)
             ->assertSee('id="mobileSidebarLabel"', false)
             ->assertSee('aria-label="Tutup menu"', false)
             ->assertSee('aria-current="page"', false)
