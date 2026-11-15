@@ -31,4 +31,24 @@ class ExampleTest extends TestCase
             ->assertSee('Dashboard')
             ->assertSee('images/brand/icon.png');
     }
+
+    public function test_application_honors_https_forwarded_headers_behind_reverse_proxy(): void
+    {
+        $user = User::create([
+            'nama' => 'Proxy Uji',
+            'email' => 'proxy@example.com',
+            'password' => 'password',
+            'role' => 'admin',
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($user)
+            ->withHeaders([
+                'X-Forwarded-Proto' => 'https',
+                'X-Forwarded-Host' => 'task.example.com',
+                'X-Forwarded-Port' => '443',
+            ])
+            ->get('/')
+            ->assertRedirect('https://task.example.com/dashboard');
+    }
 }

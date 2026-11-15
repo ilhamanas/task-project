@@ -167,10 +167,19 @@ Susunan halaman:
   - Password: `password`
   - Role: `admin`
 
-## 9. Riwayat Perubahan Dokumen
+## 9. Deploy Production (VPS Linux: Apache/Nginx + Reverse Proxy HTTPS)
+
+- **Prasyarat server**: PHP `>= 8.1` (`php-mysql`, `php-gd`, `php-mbstring`, `php-xml`, `php-fileinfo`, `php-curl`, `php-zip`), MySQL 8.0+, Composer, Git, dan batas upload Nginx/PHP minimal `10M` (`client_max_body_size 10M;`, `upload_max_filesize = 10M`, `post_max_size = 10M`) karena lampiran fitur maks. 5 MB dan foto profil maks. 2 MB.
+- **Reverse proxy & HTTPS**: `App\Http\Middleware\TrustProxies` dikonfigurasi dengan `$proxies = '*'` agar header `X-Forwarded-Proto` / `X-Forwarded-Host` terbaca oleh Laravel dan signed URL Livewire (`WithFileUploads`) tetap valid di balik Nginx/Cloudflare/Load Balancer.
+- **Template environment**: salin `.env.production.example` menjadi `.env`, isi `APP_URL=https://domain-anda.com`, `SESSION_SECURE_COOKIE=true`, dan kredensial MySQL production, lalu jalankan `php artisan key:generate --force`.
+- **Update berikutnya**: jalankan `./deploy.sh` dari root aplikasi (`git pull --ff-only origin main`, `composer install --no-dev`, `migrate --force`, serta cache config/route/view).
+- **Keamanan awal**: setelah `php artisan db:seed --force` pada deploy pertama, segera ganti password akun default `admin@taskproject.test` melalui menu **Pengaturan Akun**.
+
+## 10. Riwayat Perubahan Dokumen
 
 | Tanggal | Perubahan |
 |---|---|
 | 14 Nov 2026 | Dokumen dibuat dari PRD v1.0 |
 | 15 Nov 2026 | Dokumentasi disesuaikan dengan implementasi Fase 1, 2, dan 3 |
 | 15 Nov 2026 | Tambah kolom `users.avatar_path` dan halaman Pengaturan Akun (`/account`) |
+| 15 Nov 2026 | Tambah konfigurasi `TrustProxies`, `APP_TIMEZONE`, `.env.production.example`, dan `deploy.sh` |

@@ -11,9 +11,7 @@ use App\Livewire\Reports\ReportIndex;
 use App\Livewire\Users\UserIndex;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+Route::redirect('/', '/dashboard');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

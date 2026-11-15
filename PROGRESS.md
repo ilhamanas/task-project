@@ -104,3 +104,4 @@ Catatan: notifikasi (email atau Telegram) tidak diperlukan pada fase awal.
 | 15 Nov 2026 | Tambah halaman custom error 404 (ilustrasi Dasher UI) dan 403 berbahasa Indonesia | Agent |
 | 15 Nov 2026 | Pasang logo Rinjan di halaman login dan icon brand (`icon.png`) sebagai favicon di semua halaman & sidebar | Agent |
 | 15 Nov 2026 | Tambah menu & halaman Pengaturan Akun (`/account`) untuk update foto profil (`avatar_path`) dan ubah kata sandi | Agent |
+| 15 Nov 2026 | Tambah konfigurasi production (`TrustProxies`, `APP_TIMEZONE`, `.env.production.example`, `deploy.sh`, dan docs deploy) | Agent |

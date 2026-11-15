@@ -12,7 +12,8 @@ class TrustProxies extends Middleware
      *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    // Percaya header proxy (X-Forwarded-Proto/Host) agar URL Livewire & HTTPS valid di balik Nginx/Cloudflare
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
