@@ -1,0 +1,303 @@
+:root {
+    --ds-primary: #00a76f;
+    --ds-primary-dark: #007867;
+    --ds-primary-light: #c8fad6;
+    --ds-primary-subtle: rgba(0, 167, 111, 0.12);
+    --ds-info: #00b8d9;
+    --ds-info-subtle: #cafdf5;
+    --ds-success: #22c55e;
+    --ds-success-subtle: #d3fcd2;
+    --ds-warning: #ffab00;
+    --ds-warning-subtle: #fff5cc;
+    --ds-danger: #ff5630;
+    --ds-danger-subtle: #ffe9d5;
+    --ds-gray-100: #f9fafb;
+    --ds-gray-200: #f4f6f8;
+    --ds-gray-300: #dfe3e8;
+    --ds-gray-500: #919eab;
+    --ds-gray-600: #637381;
+    --ds-gray-800: #1c252e;
+    --ds-sidebar-width: 250px;
+    --ds-sidebar-mini-width: 76px;
+}
+
+body {
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--ds-gray-100);
+    color: var(--ds-gray-800);
+    font-size: 0.9375rem;
+    overflow-x: hidden;
+}
+
+/* Wrapper & Sidebar */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.app-sidebar {
+    width: var(--ds-sidebar-width);
+    background-color: #ffffff;
+    border-right: 1px dashed var(--ds-gray-300);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1030;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.2s ease, transform 0.2s ease;
+}
+
+.app-main {
+    flex: 1;
+    margin-left: var(--ds-sidebar-width);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.2s ease;
+}
+
+body.sidebar-collapsed .app-sidebar {
+    width: var(--ds-sidebar-mini-width);
+}
+
+body.sidebar-collapsed .app-main {
+    margin-left: var(--ds-sidebar-mini-width);
+}
+
+body.sidebar-collapsed .app-sidebar .sidebar-text,
+body.sidebar-collapsed .app-sidebar .nav-heading,
+body.sidebar-collapsed .app-sidebar .site-logo-text {
+    display: none;
+}
+
+body.sidebar-collapsed .app-sidebar .nav-link {
+    justify-content: center;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.brand-logo {
+    height: 68px;
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    border-bottom: 1px dashed var(--ds-gray-300);
+    text-decoration: none;
+    color: var(--ds-gray-800);
+}
+
+.brand-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #008fba 0%, #00a76f 100%);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nav-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ds-gray-500);
+    padding: 1.25rem 1.25rem 0.5rem;
+}
+
+.app-sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.15rem 0.75rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 8px;
+    color: var(--ds-gray-600);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.app-sidebar .nav-link:hover {
+    background-color: var(--ds-gray-200);
+    color: var(--ds-gray-800);
+}
+
+.app-sidebar .nav-link.active {
+    background-color: var(--ds-primary-subtle);
+    color: var(--ds-primary-dark);
+    font-weight: 600;
+}
+
+/* Header */
+.navbar-glass {
+    height: 68px;
+    background-color: rgba(249, 250, 251, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px dashed var(--ds-gray-300);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+/* Cards & Components */
+.card-dasher {
+    background-color: #ffffff;
+    border: 1px solid var(--ds-gray-300);
+    border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(20, 26, 33, 0.04);
+}
+
+.btn-primary {
+    background-color: var(--ds-primary);
+    border-color: var(--ds-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--ds-primary-dark);
+    border-color: var(--ds-primary-dark);
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: var(--ds-primary-subtle);
+    color: var(--ds-primary-dark);
+    font-weight: 600;
+}
+
+.text-primary-ds {
+    color: var(--ds-primary) !important;
+}
+
+.bg-primary-subtle-ds {
+    background-color: var(--ds-primary-subtle);
+    color: var(--ds-primary-dark);
+}
+
+.bg-info-subtle-ds {
+    background-color: var(--ds-info-subtle);
+    color: #006c9c;
+}
+
+.bg-success-subtle-ds {
+    background-color: var(--ds-success-subtle);
+    color: #118d57;
+}
+
+.bg-warning-subtle-ds {
+    background-color: var(--ds-warning-subtle);
+    color: #b76e00;
+}
+
+.bg-danger-subtle-ds {
+    background-color: var(--ds-danger-subtle);
+    color: #b71d18;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(320deg, rgba(211, 252, 210, 0.7) 0%, #ffffff 70%);
+}
+
+.bg-gradient-info {
+    background: linear-gradient(320deg, rgba(201, 253, 245, 0.7) 0%, #ffffff 70%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(320deg, rgba(255, 245, 204, 0.7) 0%, #ffffff 70%);
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(320deg, rgba(255, 233, 213, 0.7) 0%, #ffffff 70%);
+}
+
+.bg-gradient-neutral {
+    background: linear-gradient(320deg, rgba(223, 227, 232, 0.7) 0%, #ffffff 70%);
+}
+
+.icon-shape {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.progress {
+    background-color: var(--ds-gray-200);
+    border-radius: 999px;
+}
+
+.progress-bar {
+    background-color: var(--ds-primary);
+    border-radius: 999px;
+}
+
+/* Responsive mobile */
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        display: none;
+    }
+
+    .app-main {
+        margin-left: 0 !important;
+    }
+}
+
+/* Kanban 4 Kolom */
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(260px, 1fr));
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.kanban-column {
+    background-color: var(--ds-gray-200);
+    border: 1px solid var(--ds-gray-300);
+    border-radius: 14px;
+    padding: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 360px;
+}
+
+.kanban-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    flex: 1;
+    min-height: 180px;
+}
+
+.kanban-card {
+    background-color: #ffffff;
+    border: 1px solid var(--ds-gray-300);
+    border-radius: 12px;
+    padding: 0.875rem;
+    box-shadow: 0 1px 2px rgba(20, 26, 33, 0.04);
+    cursor: grab;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.kanban-card:hover {
+    border-color: var(--ds-primary);
+    box-shadow: 0 4px 12px rgba(20, 26, 33, 0.06);
+}
+
+.kanban-card:active {
+    cursor: grabbing;
+}
+
+.kanban-ghost {
+    opacity: 0.45;
+    border: 1px dashed var(--ds-primary);
+}
