@@ -11,20 +11,38 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/dasher.css') }}" rel="stylesheet">
 </head>
-<body class="d-flex align-items-center justify-content-center min-vh-100 p-3">
-    <div class="w-100" style="max-width: 420px;">
-        <div class="text-center mb-4">
-            <div class="mb-2">
-                <img
-                    src="{{ asset('images/brand/logo-rinjan.png') }}"
-                    alt="Rinjan Media"
-                    class="img-fluid"
-                    style="max-height: 44px;">
-            </div>
-            <p class="text-secondary small mb-0">Aplikasi Task Project &middot; Masuk untuk memantau project dan progres fitur</p>
-        </div>
+<body class="login-page d-flex align-items-center justify-content-center min-vh-100 p-3">
+    @php
+        $bgKey = $bgKey ?? 'work-1';
+    @endphp
 
-        <div class="card-dasher p-4">
+    <div class="login-backdrop" aria-hidden="true">
+        <picture>
+            <source srcset="{{ asset("images/login-bg/{$bgKey}.webp") }}" type="image/webp">
+            <img
+                src="{{ asset("images/login-bg/{$bgKey}.jpg") }}"
+                alt=""
+                width="1600"
+                height="893"
+                fetchpriority="high"
+                class="login-backdrop-img">
+        </picture>
+        <div class="login-backdrop-scrim"></div>
+    </div>
+
+    <main class="login-card-wrap w-100" style="max-width: 440px;">
+        <div class="card-dasher login-card p-4">
+            <div class="text-center pb-3 mb-4 border-bottom">
+                <div class="mb-2">
+                    <img
+                        src="{{ asset('images/brand/logo-rinjan.png') }}"
+                        alt="Rinjan Media"
+                        class="img-fluid"
+                        style="max-height: 44px;">
+                </div>
+                <p class="text-secondary small mb-0">Aplikasi Task Project &middot; Masuk untuk memantau project dan progres fitur</p>
+            </div>
+
             <h1 class="h5 fw-bold mb-3">Masuk ke Akun</h1>
 
             <form method="POST" action="{{ route('login.attempt') }}" novalidate>
@@ -74,6 +92,6 @@
                 </button>
             </form>
         </div>
-    </div>
+    </main>
 </body>
 </html>

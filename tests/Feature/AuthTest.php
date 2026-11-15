@@ -14,10 +14,13 @@ class AuthTest extends TestCase
     {
         $this->get('/dashboard')->assertRedirect('/login');
 
-        $this->get('/login')
+        $response = $this->get('/login');
+        $response
             ->assertOk()
             ->assertSee('images/brand/logo-rinjan.png')
-            ->assertSee('images/brand/icon.png');
+            ->assertSee('images/brand/icon.png')
+            ->assertSee('login-backdrop')
+            ->assertSee('images/login-bg/work-');
     }
 
     public function test_active_user_can_login_with_valid_credentials(): void
