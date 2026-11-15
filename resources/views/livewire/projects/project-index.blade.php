@@ -40,7 +40,7 @@
     </div>
 
     <div class="card-dasher overflow-hidden">
-        <div class="table-responsive">
+        <div class="table-responsive-cards">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
@@ -65,46 +65,50 @@
                             };
                         @endphp
                         <tr wire:key="project-{{ $project->id }}">
-                            <td class="ps-3">
+                            <td class="ps-3 table-cell-primary">
                                 <a href="{{ route('projects.show', $project) }}" class="fw-semibold text-decoration-none text-dark">
                                     {{ $project->nama }}
                                 </a>
                                 @if($project->deskripsi)
-                                    <div class="text-secondary small text-truncate" style="max-width: 280px;">
+                                    <div class="text-secondary small text-truncate project-desc-preview">
                                         {{ $project->deskripsi }}
                                     </div>
                                 @endif
                             </td>
-                            <td>
+                            <td data-label="Status">
                                 <span class="badge {{ $statusBadge }}">{{ $project->statusLabel() }}</span>
                             </td>
-                            <td class="small">{{ $project->pic?->nama ?? '-' }}</td>
-                            <td class="small">
+                            <td class="small" data-label="PIC">{{ $project->pic?->nama ?? '-' }}</td>
+                            <td class="small" data-label="Deadline">
                                 @if($project->tgl_target)
-                                    <span>{{ $project->tgl_target->format('d M Y') }}</span>
-                                    @if($project->isOverdue())
-                                        <span class="badge bg-danger-subtle-ds ms-1">Terlambat</span>
-                                    @endif
+                                    <div class="d-inline-flex flex-wrap align-items-center gap-1">
+                                        <span>{{ $project->tgl_target->format('d M Y') }}</span>
+                                        @if($project->isOverdue())
+                                            <span class="badge bg-danger-subtle-ds">Terlambat</span>
+                                        @endif
+                                    </div>
                                 @else
                                     <span class="text-secondary">-</span>
                                 @endif
                             </td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="progress flex-grow-1" style="height: 7px;">
-                                        <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%;" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            <td data-label="Progress">
+                                <div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress flex-grow-1" style="height: 7px;">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%;" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="small fw-semibold">{{ $progress }}%</span>
                                     </div>
-                                    <span class="small fw-semibold">{{ $progress }}%</span>
-                                </div>
-                                <div class="text-secondary" style="font-size: 0.75rem;">
-                                    {{ $project->selesai_features_count }}/{{ $project->features_count }} fitur
+                                    <div class="text-secondary" style="font-size: 0.75rem;">
+                                        {{ $project->selesai_features_count }}/{{ $project->features_count }} fitur
+                                    </div>
                                 </div>
                             </td>
-                            <td>
+                            <td data-label="Anggota">
                                 <span class="badge bg-light text-dark border">{{ $project->members_count }} orang</span>
                             </td>
-                            <td class="text-end pe-3">
-                                <div class="d-inline-flex gap-1">
+                            <td class="text-end pe-3 table-cell-actions" data-label="Aksi">
+                                <div class="d-inline-flex flex-wrap justify-content-end gap-1 table-action-group">
                                     <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-light border">
                                         Buka
                                     </a>

@@ -29,7 +29,12 @@ class ExampleTest extends TestCase
             ->assertStatus(200)
             ->assertSee('Task Project')
             ->assertSee('Dashboard')
-            ->assertSee('images/brand/icon.png');
+            ->assertSee('images/brand/icon.png')
+            ->assertSee('app-sidebar-drawer')
+            ->assertSee('id="mobileSidebarLabel"', false)
+            ->assertSee('aria-label="Tutup menu"', false)
+            ->assertSee('aria-current="page"', false)
+            ->assertSee('table-responsive-cards');
     }
 
     public function test_application_honors_https_forwarded_headers_behind_reverse_proxy(): void

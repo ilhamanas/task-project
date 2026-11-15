@@ -93,29 +93,29 @@
             <div class="card-dasher overflow-hidden">
                 <div class="p-3 p-lg-4 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
                     <h2 class="h6 fw-bold mb-0">Daftar Project</h2>
-                    <div class="btn-group btn-group-sm" role="group" aria-label="Filter project dashboard">
+                    <div class="ds-filter-pills" role="group" aria-label="Filter project dashboard">
                         <button
                             type="button"
                             wire:click="$set('projectFilter', 'semua')"
-                            class="btn {{ $projectFilter === 'semua' ? 'btn-primary' : 'btn-light border' }}">
+                            class="btn btn-sm {{ $projectFilter === 'semua' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
                             Semua ({{ $totalProjects }})
                         </button>
                         <button
                             type="button"
                             wire:click="$set('projectFilter', 'berjalan')"
-                            class="btn {{ $projectFilter === 'berjalan' ? 'btn-primary' : 'btn-light border' }}">
+                            class="btn btn-sm {{ $projectFilter === 'berjalan' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
                             Berjalan ({{ $runningProjectsCount }})
                         </button>
                         <button
                             type="button"
                             wire:click="$set('projectFilter', 'terlambat')"
-                            class="btn {{ $projectFilter === 'terlambat' ? 'btn-danger' : 'btn-light border' }}">
+                            class="btn btn-sm {{ $projectFilter === 'terlambat' ? 'btn-danger fw-semibold' : 'btn-light border' }}">
                             Terlambat ({{ $overdueProjectsCount }})
                         </button>
                     </div>
                 </div>
 
-                <div class="table-responsive">
+                <div class="table-responsive-cards">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
@@ -137,7 +137,7 @@
                                     };
                                 @endphp
                                 <tr wire:key="dash-project-{{ $project->id }}">
-                                    <td class="ps-3">
+                                    <td class="ps-3 table-cell-primary">
                                         <a href="{{ route('projects.show', $project) }}" class="fw-semibold text-decoration-none text-dark">
                                             {{ $project->nama }}
                                         </a>
@@ -145,28 +145,32 @@
                                             PIC: {{ $project->pic?->nama ?? '-' }}
                                         </div>
                                     </td>
-                                    <td>
+                                    <td data-label="Status">
                                         <span class="badge {{ $statusBadge }}">{{ $project->statusLabel() }}</span>
                                     </td>
-                                    <td class="small">
+                                    <td class="small" data-label="Deadline">
                                         @if($project->tgl_target)
-                                            <span>{{ $project->tgl_target->format('d M Y') }}</span>
-                                            @if($project->isOverdue())
-                                                <span class="badge bg-danger-subtle-ds ms-1">Terlambat</span>
-                                            @endif
+                                            <div class="d-inline-flex flex-wrap align-items-center gap-1">
+                                                <span>{{ $project->tgl_target->format('d M Y') }}</span>
+                                                @if($project->isOverdue())
+                                                    <span class="badge bg-danger-subtle-ds">Terlambat</span>
+                                                @endif
+                                            </div>
                                         @else
                                             <span class="text-secondary">-</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="progress flex-grow-1" style="height: 7px;">
-                                                <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%;" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <td data-label="Progress">
+                                        <div>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="progress flex-grow-1" style="height: 7px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%;" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <span class="small fw-semibold">{{ $progress }}%</span>
                                             </div>
-                                            <span class="small fw-semibold">{{ $progress }}%</span>
-                                        </div>
-                                        <div class="text-secondary" style="font-size: 0.75rem;">
-                                            {{ $project->selesai_features_count }}/{{ $project->features_count }} fitur selesai
+                                            <div class="text-secondary" style="font-size: 0.75rem;">
+                                                {{ $project->selesai_features_count }}/{{ $project->features_count }} fitur selesai
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -213,24 +217,18 @@
                 </div>
 
                 <div class="p-3 rounded-3" style="background-color: var(--ds-gray-100);">
-                    <div class="row g-2 text-center">
-                        <div class="col-4">
-                            <div class="bg-white border rounded-3 p-2 h-100">
-                                <div class="fs-4 fw-bold">{{ $totalProjects }}</div>
-                                <div class="text-secondary" style="font-size: 0.75rem;">Total Project</div>
-                            </div>
+                    <div class="dashboard-mini-stats text-center">
+                        <div class="bg-white border rounded-3 p-2 h-100">
+                            <div class="fs-4 fw-bold">{{ $totalProjects }}</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">Total Project</div>
                         </div>
-                        <div class="col-4">
-                            <div class="bg-white border rounded-3 p-2 h-100">
-                                <div class="fs-4 fw-bold text-info">{{ $runningProjectsCount }}</div>
-                                <div class="text-secondary" style="font-size: 0.75rem;">Berjalan</div>
-                            </div>
+                        <div class="bg-white border rounded-3 p-2 h-100">
+                            <div class="fs-4 fw-bold text-info">{{ $runningProjectsCount }}</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">Berjalan</div>
                         </div>
-                        <div class="col-4">
-                            <div class="bg-white border rounded-3 p-2 h-100">
-                                <div class="fs-4 fw-bold text-danger">{{ $overdueProjectsCount }}</div>
-                                <div class="text-secondary" style="font-size: 0.75rem;">Terlambat</div>
-                            </div>
+                        <div class="bg-white border rounded-3 p-2 h-100">
+                            <div class="fs-4 fw-bold text-danger">{{ $overdueProjectsCount }}</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">Terlambat</div>
                         </div>
                     </div>
                 </div>

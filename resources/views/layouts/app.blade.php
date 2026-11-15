@@ -24,9 +24,9 @@
         </aside>
 
         {{-- Offcanvas Sidebar Mobile --}}
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel" style="width: 260px;">
-            <div class="offcanvas-body p-0">
-                @include('layouts.partials.sidebar')
+        <div class="offcanvas offcanvas-start app-sidebar-drawer d-lg-none" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+            <div class="offcanvas-body p-0 d-flex flex-column">
+                @include('layouts.partials.sidebar', ['isMobileDrawer' => true])
             </div>
         </div>
 

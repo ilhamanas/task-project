@@ -76,7 +76,7 @@
     </div>
 
     <div class="card-dasher p-3 mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-1 mb-2">
             <span class="small fw-semibold">Progress Project</span>
             <span class="small fw-bold text-primary-ds">
                 {{ $progress }}% ({{ $statusCounts['selesai'] }} dari {{ $totalFeatures }} fitur selesai)
@@ -96,51 +96,50 @@
     {{-- Toolbar Switch Tampilan (Kanban / Tabel / Backlog / Riwayat) & Pencarian --}}
     <div class="card-dasher p-3 mb-3">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Mode tampilan project">
+            <div class="ds-filter-pills" role="group" aria-label="Mode tampilan project">
                 <button
                     type="button"
                     wire:click="setViewMode('kanban')"
-                    class="btn {{ $viewMode === 'kanban' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
+                    class="btn btn-sm {{ $viewMode === 'kanban' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
                     Papan Kanban
                 </button>
                 <button
                     type="button"
                     wire:click="setViewMode('tabel')"
-                    class="btn {{ $viewMode === 'tabel' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
+                    class="btn btn-sm {{ $viewMode === 'tabel' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
                     Daftar Tabel
                 </button>
                 <button
                     type="button"
                     wire:click="setViewMode('backlog')"
-                    class="btn {{ $viewMode === 'backlog' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
+                    class="btn btn-sm {{ $viewMode === 'backlog' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
                     Backlog ({{ $statusCounts['belum_mulai'] }})
                 </button>
                 <button
                     type="button"
                     wire:click="setViewMode('riwayat')"
-                    class="btn {{ $viewMode === 'riwayat' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
+                    class="btn btn-sm {{ $viewMode === 'riwayat' ? 'btn-primary fw-semibold' : 'btn-light border' }}">
                     Riwayat
                 </button>
             </div>
 
-            <div class="d-flex flex-wrap gap-2">
+            <div class="d-flex flex-column flex-sm-row gap-2 toolbar-filters">
                 <input
                     type="search"
                     wire:model.live.debounce.300ms="searchFeature"
-                    class="form-control form-control-sm"
-                    style="width: 220px;"
+                    class="form-control form-control-sm toolbar-search"
                     placeholder="Cari nama fitur..."
                     aria-label="Cari fitur">
 
                 @if($viewMode === 'tabel')
-                    <select wire:model.live="filterStatus" class="form-select form-select-sm" style="width: 170px;" aria-label="Filter status fitur">
+                    <select wire:model.live="filterStatus" class="form-select form-select-sm toolbar-select" aria-label="Filter status fitur">
                         <option value="">Semua Status</option>
                         @foreach($statuses as $key => $label)
                             <option value="{{ $key }}">{{ $label }}</option>
                         @endforeach
                     </select>
                 @elseif($viewMode === 'backlog')
-                    <select wire:model.live="filterPriority" class="form-select form-select-sm" style="width: 170px;" aria-label="Filter prioritas backlog">
+                    <select wire:model.live="filterPriority" class="form-select form-select-sm toolbar-select" aria-label="Filter prioritas backlog">
                         <option value="">Semua Prioritas</option>
                         @foreach($priorities as $key => $label)
                             <option value="{{ $key }}">{{ $label }}</option>
@@ -153,6 +152,7 @@
 
     {{-- Tampilan Kanban 4 Kolom --}}
     @if($viewMode === 'kanban')
+        <p class="small text-secondary d-lg-none mb-2">Geser ke samping untuk melihat kolom status lainnya.</p>
         <div class="kanban-board" id="kanbanBoard">
             @foreach($statuses as $statusKey => $statusLabel)
                 @php
@@ -292,7 +292,7 @@
     @elseif($viewMode === 'tabel')
         {{-- Tampilan Tabel Daftar Fitur --}}
         <div class="card-dasher overflow-hidden">
-            <div class="table-responsive">
+            <div class="table-responsive-cards">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -314,7 +314,7 @@
                                 };
                             @endphp
                             <tr wire:key="feature-row-{{ $feature->id }}">
-                                <td class="ps-3">
+                                <td class="ps-3 table-cell-primary">
                                     <div class="fw-semibold">{{ $feature->nama }}</div>
                                     @if($feature->deskripsi)
                                         <div class="text-secondary small">{{ $feature->deskripsi }}</div>
@@ -325,10 +325,10 @@
                                         </div>
                                     @endif
                                 </td>
-                                <td>
+                                <td data-label="Prioritas">
                                     <span class="badge {{ $priorityBadge }}">{{ $feature->priorityLabel() }}</span>
                                 </td>
-                                <td style="min-width: 160px;">
+                                <td class="feature-status-cell" data-label="Status">
                                     <select
                                         class="form-select form-select-sm"
                                         aria-label="Ubah status fitur {{ $feature->nama }}"
@@ -338,12 +338,12 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td class="small">{{ $feature->pic?->nama ?? '-' }}</td>
-                                <td class="small">
+                                <td class="small" data-label="PIC">{{ $feature->pic?->nama ?? '-' }}</td>
+                                <td class="small" data-label="Target">
                                     {{ $feature->tgl_target?->format('d M Y') ?? '-' }}
                                 </td>
-                                <td class="text-end pe-3">
-                                    <div class="d-inline-flex gap-1">
+                                <td class="text-end pe-3 table-cell-actions" data-label="Aksi">
+                                    <div class="d-inline-flex flex-wrap justify-content-end gap-1 table-action-group">
                                         <button type="button" wire:click="openDetailFeature({{ $feature->id }})" class="btn btn-sm btn-light border">
                                             Detail ({{ $feature->comments_count }})
                                         </button>
@@ -383,7 +383,7 @@
                     + Tambah ke Backlog
                 </button>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive-cards">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -404,19 +404,19 @@
                                 };
                             @endphp
                             <tr wire:key="backlog-row-{{ $feature->id }}">
-                                <td class="ps-3">
+                                <td class="ps-3 table-cell-primary">
                                     <div class="fw-semibold">{{ $feature->nama }}</div>
                                     @if($feature->deskripsi)
                                         <div class="text-secondary small">{{ $feature->deskripsi }}</div>
                                     @endif
                                 </td>
-                                <td>
+                                <td data-label="Prioritas">
                                     <span class="badge {{ $priorityBadge }}">{{ $feature->priorityLabel() }}</span>
                                 </td>
-                                <td class="small">{{ $feature->pic?->nama ?? '-' }}</td>
-                                <td class="small">{{ $feature->tgl_target?->format('d M Y') ?? '-' }}</td>
-                                <td class="text-end pe-3">
-                                    <div class="d-inline-flex gap-1">
+                                <td class="small" data-label="PIC">{{ $feature->pic?->nama ?? '-' }}</td>
+                                <td class="small" data-label="Target">{{ $feature->tgl_target?->format('d M Y') ?? '-' }}</td>
+                                <td class="text-end pe-3 table-cell-actions" data-label="Aksi">
+                                    <div class="d-inline-flex flex-wrap justify-content-end gap-1 table-action-group">
                                         <button
                                             type="button"
                                             wire:click="requestStatusChange({{ $feature->id }}, 'dikerjakan')"
@@ -457,7 +457,7 @@
                 <h2 class="h6 fw-bold mb-0">Riwayat Perubahan Status</h2>
                 <p class="text-secondary small mb-0">Catatan setiap perubahan status fitur pada project ini.</p>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive-cards">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -474,16 +474,18 @@
                                 $newLabel = $statuses[$log->status_baru] ?? $log->status_baru;
                             @endphp
                             <tr wire:key="log-row-{{ $log->id }}">
-                                <td class="ps-3 small text-secondary text-nowrap">
+                                <td class="ps-3 small text-secondary text-nowrap table-cell-primary">
                                     {{ $log->created_at?->format('d M Y, H:i') }}
                                 </td>
-                                <td class="fw-semibold">{{ $log->feature?->nama ?? '-' }}</td>
-                                <td>
-                                    <span class="badge bg-light text-dark border">{{ $oldLabel }}</span>
-                                    <span class="mx-1 text-secondary">&rarr;</span>
-                                    <span class="badge bg-primary-subtle-ds">{{ $newLabel }}</span>
+                                <td class="fw-semibold" data-label="Fitur">{{ $log->feature?->nama ?? '-' }}</td>
+                                <td data-label="Perubahan">
+                                    <div class="d-inline-flex flex-wrap align-items-center gap-1">
+                                        <span class="badge bg-light text-dark border">{{ $oldLabel }}</span>
+                                        <span class="text-secondary">&rarr;</span>
+                                        <span class="badge bg-primary-subtle-ds">{{ $newLabel }}</span>
+                                    </div>
                                 </td>
-                                <td class="pe-3 small">{{ $log->user?->nama ?? '-' }}</td>
+                                <td class="pe-3 small" data-label="Oleh">{{ $log->user?->nama ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -640,19 +642,19 @@
                         @endif
 
                         <div class="row g-2 mb-4 small text-secondary">
-                            <div class="col-4">
+                            <div class="col-12 col-sm-4">
                                 <div class="border rounded p-2">
                                     <div>Target</div>
                                     <strong class="text-dark">{{ $detailFeature->tgl_target?->format('d M Y') ?? '-' }}</strong>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-12 col-sm-4">
                                 <div class="border rounded p-2">
                                     <div>Mulai</div>
                                     <strong class="text-dark">{{ $detailFeature->tgl_mulai?->format('d M Y') ?? '-' }}</strong>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-12 col-sm-4">
                                 <div class="border rounded p-2">
                                     <div>Selesai</div>
                                     <strong class="text-dark">{{ $detailFeature->tgl_selesai?->format('d M Y') ?? '-' }}</strong>
@@ -697,7 +699,7 @@
 
                         <form wire:submit="uploadAttachment" class="mb-4">
                             <div class="d-flex flex-wrap gap-2 align-items-start">
-                                <div class="flex-grow-1">
+                                <div class="flex-grow-1 min-w-0">
                                     <input
                                         type="file"
                                         wire:model="attachmentFile"

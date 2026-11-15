@@ -1,10 +1,10 @@
 <header class="navbar navbar-expand-lg navbar-glass px-3 px-lg-4">
-    <div class="container-fluid px-0">
-        <div class="d-flex align-items-center gap-2">
+    <div class="container-fluid px-0 flex-nowrap gap-2">
+        <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
             {{-- Tombol drawer mobile --}}
             <button
                 type="button"
-                class="btn btn-light border d-lg-none p-2"
+                class="btn btn-light border d-inline-flex align-items-center justify-content-center d-lg-none p-2 flex-shrink-0"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#mobileSidebar"
                 aria-controls="mobileSidebar"
@@ -20,7 +20,7 @@
             <button
                 type="button"
                 id="sidebarCollapseBtn"
-                class="btn btn-light border d-none d-lg-inline-flex p-2"
+                class="btn btn-light border d-none d-lg-inline-flex align-items-center justify-content-center p-2 flex-shrink-0"
                 aria-label="Ciutkan atau lebarkan sidebar">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
@@ -28,10 +28,10 @@
                 </svg>
             </button>
 
-            <span class="fw-semibold text-dark ms-1">@yield('title', $title ?? 'Dashboard')</span>
+            <span class="fw-semibold text-dark ms-1 min-w-0">@yield('title', $title ?? 'Dashboard')</span>
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 flex-shrink-0">
             @auth
                 <div class="dropdown">
                     <button

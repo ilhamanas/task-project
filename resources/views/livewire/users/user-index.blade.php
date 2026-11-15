@@ -33,7 +33,7 @@
                     placeholder="Cari nama atau email..."
                     aria-label="Cari user">
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-4">
                 <select wire:model.live="filterRole" class="form-select" aria-label="Filter role">
                     <option value="">Semua Role</option>
                     @foreach($roles as $key => $label)
@@ -41,7 +41,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-6 col-md-2">
+            <div class="col-6 col-md-3">
                 <select wire:model.live="filterStatus" class="form-select" aria-label="Filter status">
                     <option value="">Semua Status</option>
                     <option value="aktif">Aktif</option>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="card-dasher overflow-hidden">
-        <div class="table-responsive">
+        <div class="table-responsive-cards">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
@@ -66,9 +66,9 @@
                 <tbody>
                     @forelse($users as $user)
                         <tr wire:key="user-{{ $user->id }}">
-                            <td class="ps-3 fw-semibold">{{ $user->nama }}</td>
-                            <td class="text-secondary">{{ $user->email }}</td>
-                            <td>
+                            <td class="ps-3 fw-semibold table-cell-primary">{{ $user->nama }}</td>
+                            <td class="text-secondary text-break" data-label="Email">{{ $user->email }}</td>
+                            <td data-label="Role">
                                 @php
                                     $roleBadge = match ($user->role) {
                                         'admin' => 'bg-danger-subtle-ds',
@@ -78,15 +78,15 @@
                                 @endphp
                                 <span class="badge {{ $roleBadge }}">{{ $user->roleLabel() }}</span>
                             </td>
-                            <td>
+                            <td data-label="Status">
                                 @if($user->is_active)
                                     <span class="badge bg-success-subtle-ds">Aktif</span>
                                 @else
                                     <span class="badge bg-secondary-subtle text-secondary">Nonaktif</span>
                                 @endif
                             </td>
-                            <td class="text-end pe-3">
-                                <div class="d-inline-flex gap-1">
+                            <td class="text-end pe-3 table-cell-actions" data-label="Aksi">
+                                <div class="d-inline-flex flex-wrap justify-content-end gap-1 table-action-group">
                                     <button type="button" wire:click="openEdit({{ $user->id }})" class="btn btn-sm btn-light border">
                                         Ubah
                                     </button>

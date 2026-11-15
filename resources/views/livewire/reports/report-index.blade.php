@@ -38,7 +38,7 @@
                 <label for="report-to" class="form-label small fw-semibold mb-1">Target Sampai</label>
                 <input id="report-to" type="date" wire:model.live="dateTo" class="form-control form-control-sm">
             </div>
-            <div class="col-6 col-md-3 text-md-end">
+            <div class="col-12 col-md-3 text-md-end">
                 <button type="button" wire:click="resetFilters" class="btn btn-sm btn-light border">
                     Reset Filter
                 </button>
@@ -83,7 +83,7 @@
         <div class="p-3 border-bottom">
             <h2 class="h6 fw-bold mb-0">Rekap Progres per Project</h2>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive-cards">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
@@ -102,30 +102,32 @@
                     @forelse($projects as $project)
                         @php $progress = $project->progressPercent(); @endphp
                         <tr wire:key="report-project-{{ $project->id }}">
-                            <td class="ps-3">
+                            <td class="ps-3 table-cell-primary">
                                 <a href="{{ route('projects.show', $project) }}" class="fw-semibold text-decoration-none text-dark">
                                     {{ $project->nama }}
                                 </a>
                             </td>
-                            <td>
+                            <td data-label="Status">
                                 <span class="badge bg-light text-dark border">{{ $project->statusLabel() }}</span>
                             </td>
-                            <td class="small">{{ $project->pic?->nama ?? '-' }}</td>
-                            <td class="small">
+                            <td class="small" data-label="PIC">{{ $project->pic?->nama ?? '-' }}</td>
+                            <td class="small" data-label="Target">
                                 @if($project->tgl_target)
-                                    {{ $project->tgl_target->format('d M Y') }}
-                                    @if($project->isOverdue())
-                                        <span class="badge bg-danger-subtle-ds ms-1">Terlambat</span>
-                                    @endif
+                                    <div class="d-inline-flex flex-wrap align-items-center gap-1">
+                                        <span>{{ $project->tgl_target->format('d M Y') }}</span>
+                                        @if($project->isOverdue())
+                                            <span class="badge bg-danger-subtle-ds">Terlambat</span>
+                                        @endif
+                                    </div>
                                 @else
                                     -
                                 @endif
                             </td>
-                            <td class="text-center">{{ $project->belum_mulai_count }}</td>
-                            <td class="text-center text-info fw-semibold">{{ $project->dikerjakan_count }}</td>
-                            <td class="text-center text-primary-ds fw-semibold">{{ $project->selesai_features_count }}</td>
-                            <td class="text-center text-danger fw-semibold">{{ $project->gagal_count }}</td>
-                            <td>
+                            <td class="text-center" data-label="Belum Mulai">{{ $project->belum_mulai_count }}</td>
+                            <td class="text-center text-info fw-semibold" data-label="Dikerjakan">{{ $project->dikerjakan_count }}</td>
+                            <td class="text-center text-primary-ds fw-semibold" data-label="Selesai">{{ $project->selesai_features_count }}</td>
+                            <td class="text-center text-danger fw-semibold" data-label="Gagal">{{ $project->gagal_count }}</td>
+                            <td data-label="Progress">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="progress flex-grow-1" style="height: 7px;">
                                         <div class="progress-bar" style="width: {{ $progress }}%;"></div>
@@ -152,7 +154,7 @@
             <div class="p-3 border-bottom">
                 <h2 class="h6 fw-bold mb-0">Daftar Fitur Gagal &amp; Catatan</h2>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive-cards">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -165,10 +167,10 @@
                     <tbody>
                         @foreach($failedFeatures as $ff)
                             <tr wire:key="failed-feature-{{ $ff->id }}">
-                                <td class="ps-3 small fw-semibold">{{ $ff->project?->nama ?? '-' }}</td>
-                                <td class="small">{{ $ff->nama }}</td>
-                                <td class="small">{{ $ff->pic?->nama ?? '-' }}</td>
-                                <td class="pe-3 small text-danger">{{ $ff->catatan_gagal }}</td>
+                                <td class="ps-3 small fw-semibold table-cell-primary">{{ $ff->project?->nama ?? '-' }}</td>
+                                <td class="small" data-label="Fitur">{{ $ff->nama }}</td>
+                                <td class="small" data-label="PIC">{{ $ff->pic?->nama ?? '-' }}</td>
+                                <td class="pe-3 small text-danger" data-label="Catatan Gagal">{{ $ff->catatan_gagal }}</td>
                             </tr>
                         @endforeach
                     </tbody>

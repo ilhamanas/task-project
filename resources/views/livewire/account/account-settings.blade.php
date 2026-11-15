@@ -9,7 +9,7 @@
     <div class="row g-4">
         {{-- Kartu Foto Profil --}}
         <div class="col-12 col-lg-5">
-            <div class="card-dasher p-4 h-100">
+            <div class="card-dasher p-3 p-sm-4 h-100">
                 <h2 id="heading-photo" class="h6 fw-bold mb-3">Foto Profil</h2>
 
                 <div class="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom">
@@ -99,7 +99,7 @@
 
         {{-- Kartu Ubah Kata Sandi --}}
         <div class="col-12 col-lg-7">
-            <div class="card-dasher p-4 h-100">
+            <div class="card-dasher p-3 p-sm-4 h-100">
                 <h2 id="heading-password" class="h6 fw-bold mb-3">Ubah Kata Sandi</h2>
 
                 @if(session('password_success'))
